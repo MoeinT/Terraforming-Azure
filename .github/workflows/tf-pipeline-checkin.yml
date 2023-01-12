@@ -31,7 +31,7 @@ jobs:
       if: github.ref != 'refs/heads/main'
       run: terraform init -backend-config backend/dev.tfvars
     - name: Branch name
-      run: ${{ github.ref }}
+      run: echo "🔎 The name of your branch is ${{ github.ref }}"
   #   - name: Validating terraform
   #     if: github.ref != 'refs/heads/main'
   #     run: terraform validate

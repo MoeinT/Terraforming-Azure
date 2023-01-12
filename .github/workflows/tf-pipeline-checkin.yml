@@ -32,13 +32,13 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.ref == 'refs/heads/feat/TerraformActons_dev'
+      # if: github.ref == 'refs/heads/feat/TerraformActons_dev'
       run: terraform init -backend-config backend/dev.tfvars
     - name: Validating terraform
-      if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
+      # if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
       run: terraform validate
     - name: Checking the format
-      if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
+      # if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
       run: terraform fmt -check -recursive
 
     - name: Plan on Dev
@@ -48,18 +48,18 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
+      # if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'push'
       run: terraform plan -var-file vars/dev.tfvars
 
-    - name: Apply on Dev
-      id: apply
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'pull_request'
-      run: terraform apply -auto-approve -var-file vars/dev.tfvars
+    # - name: Apply on Dev
+    #   id: apply
+    #   env:
+    #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+    #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+    #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    #   if: github.ref == 'refs/heads/feat/TerraformActons_dev' && github.event_name == 'pull_request'
+    #   run: terraform apply -auto-approve -var-file vars/dev.tfvars
 
 
   # Terraform-Prod:

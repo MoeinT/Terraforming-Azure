@@ -1,7 +1,7 @@
 name: 'Terraform'
 
 on:
-  pull_request:
+  push:
     branches:
       - 'feat/TerraformActons_test'
 
@@ -10,9 +10,9 @@ env:
 
 jobs:
   Terraform-Dev:
-    name: 'Deploy in Dev'
+    name: 'Deploy in Test'
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: Test
     defaults:
       run:
         shell: bash
@@ -24,20 +24,29 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.3.7
-    - name: Initializing the Dev backend
+    - name: Initializing the Test backend
       id: init
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      run: terraform init -backend-config backend/dev.tfvars
+      run: terraform init -backend-config backend/test.tfvars
 
-    - name: Apply on Dev
+    - name: Plan Test
       id: plan
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      run: terraform apply -auto-approve -var-file vars/dev.tfvars
+      run: terraform plan -var-file vars/test.tfvars
+
+    - name: Apply Test
+      id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform apply -auto-approve -var-file vars/test.tfvars

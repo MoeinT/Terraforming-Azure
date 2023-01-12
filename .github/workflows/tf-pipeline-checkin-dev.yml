@@ -10,7 +10,7 @@ env:
 
 jobs:
   Terraform-Dev:
-    name: 'Terraform on Dev'
+    name: 'Checking Dev'
     runs-on: ubuntu-latest
     environment: Dev
     defaults:

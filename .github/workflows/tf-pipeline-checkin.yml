@@ -30,12 +30,12 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.ref == 'refs/heads/feat/TerraformActons_dev'
       run: terraform init -backend-config backend/dev.tfvars
-  #   - name: Validating terraform
-  #     if: github.ref != 'refs/heads/main'
-  #     run: terraform validate
-  #   - name: Checking the format
-  #     if: github.ref != 'refs/heads/main'
-  #     run: terraform fmt -check -recursive
+    - name: Validating terraform
+      if: github.ref == 'refs/heads/feat/TerraformActons_dev'
+      run: terraform validate
+    - name: Checking the format
+      if: github.ref == 'refs/heads/feat/TerraformActons_dev'
+      run: terraform fmt -check -recursive
 
   #   - name: Plan on Dev
   #     id: plan

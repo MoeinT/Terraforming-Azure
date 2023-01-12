@@ -1,0 +1,52 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  TF_LOG: INFO
+
+jobs:
+  Terraform-Dev:
+    name: 'Deploy in prod'
+    runs-on: ubuntu-latest
+    environment: prod
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./tf/TFProjects/tfDatabricks
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.7
+    - name: Initializing the prod backend
+      id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform init -backend-config backend/prod.tfvars
+
+    - name: Plan prod
+      id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform plan -var-file vars/prod.tfvars
+
+    - name: Apply prod
+      id: Apply
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform apply -auto-approve -var-file vars/prod.tfvars

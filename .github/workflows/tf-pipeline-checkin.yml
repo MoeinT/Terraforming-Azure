@@ -30,6 +30,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.ref != 'refs/heads/main'
       run: terraform init -backend-config backend/dev.tfvars
+      run: ${{ github.ref }}
   #   - name: Validating terraform
   #     if: github.ref != 'refs/heads/main'
   #     run: terraform validate

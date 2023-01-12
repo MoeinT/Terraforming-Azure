@@ -1,0 +1,52 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+      - 'feat/TerraformActons_qa'
+
+env:
+  TF_LOG: INFO
+
+jobs:
+  Terraform-Dev:
+    name: 'Deploy in qa'
+    runs-on: ubuntu-latest
+    environment: Test
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./tf/TFProjects/tfDatabricks
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.7
+    - name: Initializing the qa backend
+      id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform init -backend-config backend/qa.tfvars
+
+    - name: Plan qa
+      id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform plan -var-file vars/qa.tfvars
+
+    - name: Apply qa
+      id: Apply
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform apply -auto-approve -var-file vars/qa.tfvars

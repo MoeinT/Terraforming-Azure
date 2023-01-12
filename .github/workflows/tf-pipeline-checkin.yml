@@ -2,7 +2,7 @@ name: 'Terraform'
 
 on: [push, pull_request]
   branches:
-      - feat/TerraformActons_dev
+      - 'feat/TerraformActons_dev'
 
 env:
   TF_LOG: INFO

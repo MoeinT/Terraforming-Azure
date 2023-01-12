@@ -1,0 +1,144 @@
+variables:
+  - group: vg-tf-demo
+
+trigger:
+  branches:
+    include:
+    - feat/terraform_staging
+  paths:
+    include:
+    - tf/TFProjects/tfdemo
+
+stages: 
+  - stage: PlanStaging
+    jobs:
+      - job: PlanStaging
+        continueOnError: false 
+        pool:
+          # name: DevOpsFoundation-Dev
+          vmImage: ubuntu-latest
+        steps: 
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+            displayName: Install terraform
+            inputs:
+              terraformVersion: '1.2.5'
+          
+
+          - task: TerraformCLI@0
+            displayName: Initialize Staging
+            env:
+              TF_VAR_projectid: $(projectid)
+              TF_VAR_AdoOrgUrl: $(AdoOrgUrl)
+              TF_VAR_AdoToken : $(AdoToken)
+              TF_VAR_clientsecret: $(app-secret-value)
+              TF_VAR_clientid: $(app-client-id)
+              TF_VAR_moeinobji: $(moeinobji)
+              TF_VAR_spobjid: $(spobjid)
+              ARM_CLIENT_ID: $(app-client-id)
+              ARM_CLIENT_SECRET: $(app-secret-value)
+              ARM_SUBSCRIPTION_ID: $(az-subscription)
+              ARM_TENANT_ID: $(az-tenant)
+            inputs:
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+              commandOptions: '-backend-config backend/staging.tfvars'
+              backendType: 'selfConfigured'
+            
+          - task: TerraformCLI@0
+            displayName: Check formatting
+            inputs:
+              command: 'fmt'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+              commandOptions: '-check -recursive'
+          
+          - task: TerraformCLI@0
+            displayName: Validate config
+            inputs:
+              command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+          
+          - task: TerraformCLI@0
+            displayName: Plan Staging
+            env:
+              TF_VAR_projectid: $(projectid)
+              TF_VAR_AdoOrgUrl: $(AdoOrgUrl)
+              TF_VAR_AdoToken : $(AdoToken)
+              TF_VAR_clientsecret: $(app-secret-value)
+              TF_VAR_clientid: $(app-client-id)
+              TF_VAR_moeinobji: $(moeinobji)
+              TF_VAR_spobjid: $(spobjid)
+              ARM_CLIENT_ID: $(app-client-id)
+              ARM_CLIENT_SECRET: $(app-secret-value)
+              ARM_SUBSCRIPTION_ID: $(az-subscription)
+              ARM_TENANT_ID: $(az-tenant)
+            inputs:
+              command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+              commandOptions: '-var-file vars/staging.tfvars'
+              publishPlanResults: 'Terraform Plan'
+
+  #Approve staging 
+  - stage: ApprovePlan
+    jobs:
+      - job: ApproveStaging
+        displayName: Wait for approval
+        pool: server
+        steps: 
+          - task: ManualValidation@0
+            timeoutInMinutes: 60
+            inputs:
+              notifyUsers: 'mohammadmoein.torabi@volvo.com'
+              instructions: 'Please review the plan within the next hour'
+
+  - stage: DeployStaging
+    jobs:
+      - job: DeployStaging
+        continueOnError: false 
+        pool:
+          # name: DevOpsFoundation-Dev
+          vmImage: ubuntu-latest
+        steps:
+          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+            displayName: Install terraform
+            inputs:
+              terraformVersion: '1.2.5'
+          
+
+          - task: TerraformCLI@0
+            displayName: Initialize Staging
+            env:
+              TF_VAR_projectid: $(projectid)
+              TF_VAR_AdoOrgUrl: $(AdoOrgUrl)
+              TF_VAR_AdoToken : $(AdoToken)
+              TF_VAR_clientsecret: $(app-secret-value)
+              TF_VAR_clientid: $(app-client-id)
+              TF_VAR_moeinobji: $(moeinobji)
+              TF_VAR_spobjid: $(spobjid)
+              ARM_CLIENT_ID: $(app-client-id)
+              ARM_CLIENT_SECRET: $(app-secret-value)
+              ARM_SUBSCRIPTION_ID: $(az-subscription)
+              ARM_TENANT_ID: $(az-tenant)
+            inputs:
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+              commandOptions: '-backend-config backend/staging.tfvars'
+              backendType: 'selfConfigured'
+          
+          - task: TerraformCLI@0
+            displayName: Apply Staging
+            env:
+              TF_VAR_projectid: $(projectid)
+              TF_VAR_AdoOrgUrl: $(AdoOrgUrl)
+              TF_VAR_AdoToken : $(AdoToken)
+              TF_VAR_clientsecret: $(app-secret-value)
+              TF_VAR_clientid: $(app-client-id)
+              TF_VAR_moeinobji: $(moeinobji)
+              TF_VAR_spobjid: $(spobjid)
+              ARM_CLIENT_ID: $(app-client-id)
+              ARM_CLIENT_SECRET: $(app-secret-value)
+              ARM_SUBSCRIPTION_ID: $(az-subscription)
+              ARM_TENANT_ID: $(az-tenant)
+            inputs:
+              command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/tf/TFProjects/tfdemo'
+              commandOptions: '-var-file vars/staging.tfvars -auto-approve'

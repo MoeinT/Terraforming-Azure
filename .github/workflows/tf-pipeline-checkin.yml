@@ -28,10 +28,8 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.ref != 'refs/heads/main'
+      if: github.ref == 'refs/heads/feat/TerraformActons_dev'
       run: terraform init -backend-config backend/dev.tfvars
-    - name: Branch name
-      run: echo "🔎 The name of your branch is ${{ github.ref }}"
   #   - name: Validating terraform
   #     if: github.ref != 'refs/heads/main'
   #     run: terraform validate

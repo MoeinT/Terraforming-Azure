@@ -24,7 +24,7 @@ resource "azurerm_storage_account" "AllSa" {
   tags                            = contains(keys(each.value), "tags") ? merge(local.DefaultTags, each.value.tags) : local.DefaultTags
 
   network_rules {
-    default_action = "Allow"
+    default_action = each.value.default_action
     bypass         = ["AzureServices"]
   }
 

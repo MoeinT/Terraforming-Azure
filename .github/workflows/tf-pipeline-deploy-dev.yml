@@ -1,0 +1,43 @@
+name: 'Terraform'
+
+on:
+  pull_request:
+    branches:
+      - 'feat/TerraformActons_test'
+
+env:
+  TF_LOG: INFO
+
+jobs:
+  Terraform-Dev:
+    name: 'Deploy in Dev'
+    runs-on: ubuntu-latest
+    environment: Dev
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./tf/TFProjects/tfDatabricks
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.9
+    - name: Initializing the Dev backend
+      id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform init -backend-config backend/dev.tfvars
+
+    - name: Apply on Dev
+      id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: terraform plan -var-file vars/dev.tfvars

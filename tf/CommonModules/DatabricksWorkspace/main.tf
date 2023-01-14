@@ -13,7 +13,7 @@ provider "azurerm" {
 
 resource "azurerm_databricks_workspace" "AllWorkspaces" {
   for_each                      = var.propeties
-  name                          = each.value.name
+  name                          = each.key
   resource_group_name           = each.value.rgname
   location                      = each.value.loc
   managed_resource_group_name   = "db-managed-rg-${var.env}"

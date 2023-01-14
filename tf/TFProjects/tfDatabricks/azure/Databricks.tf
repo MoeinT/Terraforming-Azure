@@ -1,16 +1,15 @@
-# module "db-ws" {
-#   source = "../../../CommonModules/DatabricksWorkspace"
-#   env    = var.env
+module "db-ws" {
+  source = "../../../CommonModules/DatabricksWorkspace"
+  env    = var.env
 
-#   propeties = {
-#     ws-01 = {
-#       "name" : "db-ws-tfdemo-01-${var.env}",
-#       "rgname" : module.rg.rg-names["tfdemo-rg-${var.env}"],
-#       "loc" : module.rg.rg-locations["tfdemo-rg-${var.env}"],
-#       "PublicAccessEnabled" : true
-#     }
-#   }
-# }
+  propeties = {
+    "db-ws-${var.env}" = {
+      "rgname" : module.rg.rg-names["rg-dbrg-${var.env}"],
+      "loc" : module.rg.rg-locations["rg-dbrg-${var.env}"],
+      "PublicAccessEnabled" : true
+    }
+  }
+}
 
 # module "dbclusters" {
 #   source = "../../../CommonModules/DatabricksClusters"

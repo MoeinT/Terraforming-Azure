@@ -3,7 +3,7 @@ module "rg" {
   source = "../../../CommonModules/ResourceGroups"
   properties = {
     "rg-dbrg-${var.env}" = {
-      "loc" : "West Europe",
+      "loc" : "East Us",
       "tags" : { "TerraformDeveloper" = "Moein" }
     }
   }

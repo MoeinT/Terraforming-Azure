@@ -12,15 +12,15 @@ variable "env" {
 #   sensitive = true
 # }
 
-# variable "clientsecret" {
-#   type      = string
-#   sensitive = true
-# }
+variable "clientsecret" {
+  type      = string
+  sensitive = true
+}
 
-# variable "clientid" {
-#   type      = string
-#   sensitive = true
-# }
+variable "clientid" {
+  type      = string
+  sensitive = true
+}
 
 # variable "projectid" {
 #   type = string

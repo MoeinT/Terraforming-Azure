@@ -40,6 +40,8 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
+        TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
       run: terraform plan -var-file vars/prod.tfvars
 
     - name: Apply prod
@@ -49,4 +51,6 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
+        TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
       run: terraform apply -auto-approve -var-file vars/prod.tfvars

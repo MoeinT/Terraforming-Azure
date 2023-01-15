@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - 'feat/TerraformActons_test'
+    paths:
+      - tf/TFProjects/tfDatabricks
 
 env:
   TF_LOG: INFO

@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'feat/TerraformActons_test'
+    paths:
+      - tf/TFProjects/tfDatabricks
 
 env:
   TF_LOG: INFO

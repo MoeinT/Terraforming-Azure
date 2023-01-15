@@ -29,5 +29,3 @@ resource "azurerm_storage_account" "AllSa" {
   }
 
 }
-
-#Private endpoints setup

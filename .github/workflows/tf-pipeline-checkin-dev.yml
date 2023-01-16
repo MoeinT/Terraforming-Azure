@@ -2,10 +2,10 @@ name: 'Terraform'
 
 on:
   push:
+    paths:
+      - 'tf/TFProjects/tfDatabricks'
     branches:
       - 'feat/TerraformActons_dev'
-    paths:
-      - 'tf/TFProjects'
 
 env:
   TF_LOG: INFO

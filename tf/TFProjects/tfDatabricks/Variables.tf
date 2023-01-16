@@ -7,15 +7,15 @@ variable "env" {
   }
 }
 
-# variable "spobjid" {
-#   type      = string
-#   sensitive = true
-# }
+variable "spobjid" {
+  type      = string
+  sensitive = true
+}
 
-# variable "moeinobji" {
-#   type      = string
-#   sensitive = true
-# }
+variable "moeinobji" {
+  type      = string
+  sensitive = true
+}
 
 variable "clientsecret" {
   type      = string

@@ -35,17 +35,6 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: terraform init -backend-config backend/prod.tfvars
 
-    - name: Plan prod
-      id: plan
-      env:
-        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
-        TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
-      run: terraform plan -var-file vars/prod.tfvars
-
     - name: Apply prod
       id: Apply
       env:
@@ -55,4 +44,6 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
         TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
+        TF_VAR_spobjid: ${{ secrets.SPOBJECTID }}
+        TF_VAR_moeinobji: ${{ secrets.MOEINOBJID }}
       run: terraform apply -auto-approve -var-file vars/prod.tfvars

@@ -45,5 +45,5 @@ jobs:
         TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
         TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
         TF_VAR_spobjid: ${{ secrets.SPOBJECTID }}
-        TF_VAT_moeinobji: ${{ secrets.MOEINOBJID }}
+        TF_VAR_moeinobji: ${{ secrets.MOEINOBJID }}
       run: terraform apply -auto-approve -var-file vars/test.tfvars

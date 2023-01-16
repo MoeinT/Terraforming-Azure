@@ -5,7 +5,7 @@ on:
     branches:
       - 'feat/TerraformActons_qa'
     paths:
-      - tf/TFProjects/tfDatabricks
+      - '**.tf'
 
 env:
   TF_LOG: INFO

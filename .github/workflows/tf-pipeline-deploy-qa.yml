@@ -44,6 +44,6 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         TF_VAR_clientid: ${{ secrets.ARM_CLIENT_ID }}
         TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
-        TF_VAR_spobjid: ${{ secrets.SPOBJECTID }}
-        TF_VAR_moeinobji: ${{ secrets.MOEINOBJID }}
+        TF_VAR_spobjid: ${{ secrets.ARM_SPOBJECTID }}
+        TF_VAR_moeinobji: ${{ secrets.ARM_MOEINOBJID }}
       run: terraform apply -auto-approve -var-file vars/qa.tfvars

@@ -1,16 +1,16 @@
-# module "kv" {
-#   source = "../../../CommonModules/KeyVault"
-#   env    = var.env
+module "kv" {
+  source = "../../../CommonModules/KeyVault"
+  env    = var.env
 
-#   properties = {
-#     "tf-01-kv-${var.env}" = {
-#       "rg-name" = module.rg.rg-names["tfdemo-rg-${var.env}"],
-#       "loc"     = module.rg.rg-locations["tfdemo-rg-${var.env}"],
-#       "sku"     = "standard"
-#       "tags"    = { "TerraformDeveloper" = "Moein" }
-#     }
-#   }
-# }
+  properties = {
+    "kv-tfdb-${var.env}" = {
+      "rg-name" = module.rg.rg-names["rg-dbrg-${var.env}"],
+      "loc"     = module.rg.rg-locations["rg-dbrg-${var.env}"],
+      "sku"     = "standard"
+      "tags"    = { "TerraformDeveloper" = "Moein" }
+    }
+  }
+}
 
 # module "kvpolicies" {
 #   source = "../../../CommonModules/KVAccessPolicy"

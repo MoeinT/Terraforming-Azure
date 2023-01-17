@@ -40,6 +40,6 @@ module "kvsecrets" {
     "client-id"     = { "value" = var.clientid, "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] },
     "client-secret" = { "value" = var.clientsecret, "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] },
     "tenant-id"     = { "value" = data.azurerm_client_config.current.tenant_id, "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] }
-    "sa-name"       = { "value" = module.Sa.sa-names["sadb01dev"], "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] }
+    "sa-name"       = { "value" = module.Sa.sa-names["sadb01${var.env}"], "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] }
   }
 }

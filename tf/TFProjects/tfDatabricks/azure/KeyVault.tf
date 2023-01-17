@@ -4,10 +4,11 @@ module "kv" {
 
   properties = {
     "kv-tfdb-${var.env}" = {
-      "rg-name" = module.rg.rg-names["rg-dbrg-${var.env}"],
-      "loc"     = module.rg.rg-locations["rg-dbrg-${var.env}"],
-      "sku"     = "standard"
-      "tags"    = { "TerraformDeveloper" = "Moein" }
+      "rg-name"        = module.rg.rg-names["rg-dbrg-${var.env}"],
+      "loc"            = module.rg.rg-locations["rg-dbrg-${var.env}"],
+      "default_action" = "Allow",
+      "sku"            = "standard",
+      "tags"           = { "TerraformDeveloper" = "Moein" }
     }
   }
 }

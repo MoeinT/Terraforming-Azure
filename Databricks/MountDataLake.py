@@ -47,8 +47,8 @@ class MountSP:
 
 MountObject = MountSP(
     allcontainers  = ["data"], 
-    client_id      = dbutils.secrets.get(scope = "key-vault-sctlh", key = "sp-app-appid"),
-    client_secret  = dbutils.secrets.get(scope = "key-vault-sctlh", key = "sp-app-secret"),
+    client_id      = dbutils.secrets.get(scope = "key-vault-sctlh", key = "client-id"),
+    client_secret  = dbutils.secrets.get(scope = "key-vault-sctlh", key = "client-secret"),
     tenant_id      = dbutils.secrets.get(scope = "key-vault-sctlh", key = "tenant-id"),
     storageaccount = dbutils.secrets.get(scope = "key-vault-sctlh", key = "sa-name")
 )

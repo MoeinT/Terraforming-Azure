@@ -18,7 +18,7 @@ module "Sa" {
       "rgname"                          = module.rg.rg-names["rg-dbrg-${var.env}"],
       "loc"                             = module.rg.rg-locations["rg-dbrg-${var.env}"],
       "account_tier"                    = "Standard"
-      "allow_nested_items_to_be_public" = false
+      "allow_nested_items_to_be_public" = true
       "default_action"                  = "Allow"
       "tags"                            = { "TerraformDeveloper" = "Moein" }
     }

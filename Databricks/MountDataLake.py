@@ -35,22 +35,25 @@ class MountSP:
                 print(f"Directory '{mount_point}' is already mounted!")
                 continue
             else:
-                print(f"Mounting {mount_point}...")
-                dbutils.fs.mount(
-                    source = f"abfss://{container}@{self.storageaccount}.dfs.core.windows.net/",
-                    mount_point = mount_point,
-                    extra_configs = self.GetConfig
-                )
-        
+                try: 
+                    print(f"Mounting {mount_point}...")
+                    dbutils.fs.mount(
+                        source = f"abfss://{container}@{self.storageaccount}.dfs.core.windows.net/",
+                        mount_point = mount_point,
+                        extra_configs = self.GetConfig
+                    )
+                    print(f"{mount_point} is successfully mounted!")
+                except Exception as e:
+                    print(e)
 
 # COMMAND ----------
 
 MountObject = MountSP(
     allcontainers  = ["data"], 
-    client_id      = dbutils.secrets.get(scope = "key-vault-sctlh", key = "client-id"),
-    client_secret  = dbutils.secrets.get(scope = "key-vault-sctlh", key = "client-secret"),
-    tenant_id      = dbutils.secrets.get(scope = "key-vault-sctlh", key = "tenant-id"),
-    storageaccount = dbutils.secrets.get(scope = "key-vault-sctlh", key = "sa-name")
+    client_id      = dbutils.secrets.get(scope = "kv-scope", key = "client-id"),
+    client_secret  = dbutils.secrets.get(scope = "kv-scope", key = "client-secret"),
+    tenant_id      = dbutils.secrets.get(scope = "kv-scope", key = "tenant-id"),
+    storageaccount = dbutils.secrets.get(scope = "kv-scope", key = "sa-name")
 )
 
 MountObject.MountStorageAccount()

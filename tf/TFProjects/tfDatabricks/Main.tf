@@ -20,3 +20,7 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+output "test" {
+  value = module.azure.test-sa
+}

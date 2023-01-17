@@ -43,7 +43,3 @@ module "kvsecrets" {
     "sa-name"       = { "value" = module.Sa.sa-names["sadb01dev"], "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] }
   }
 }
-
-output "test-sa" {
-  value = module.Sa.sa-names
-}

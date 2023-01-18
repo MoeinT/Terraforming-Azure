@@ -49,7 +49,7 @@ class MountSP:
 # COMMAND ----------
 
 MountObject = MountSP(
-    allcontainers  = ["data"], 
+    allcontainers  = [f'commonfiles-{dbutils.widgets.get("env")}'],
     client_id      = dbutils.secrets.get(scope = "kv-scope", key = "client-id"),
     client_secret  = dbutils.secrets.get(scope = "kv-scope", key = "client-secret"),
     tenant_id      = dbutils.secrets.get(scope = "kv-scope", key = "tenant-id"),

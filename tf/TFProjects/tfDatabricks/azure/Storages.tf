@@ -25,3 +25,13 @@ module "Sa" {
   }
   env = var.env
 }
+
+#Containers
+module "Scons" {
+  source = "../../../CommonModules/SContainers"
+  properties = {
+    "commonfiles-${var.env}" = {
+      "storage_account_id" = module.Sa.ids["sadb01${var.env}"]
+    }
+  }
+}

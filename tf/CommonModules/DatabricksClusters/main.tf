@@ -26,7 +26,7 @@ provider "databricks" {
 
 resource "databricks_cluster" "db-culster" {
   for_each                = var.properties
-  cluster_name            = each.value.clustername
+  cluster_name            = each.key
   spark_version           = each.value.spark_version
   node_type_id            = each.value.node_type_id
   autotermination_minutes = each.value.autotermination

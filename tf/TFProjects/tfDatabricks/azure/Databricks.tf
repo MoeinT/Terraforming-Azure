@@ -23,13 +23,10 @@ module "dbclusters" {
   }
 
   properties = {
-    "cluster-01-${var.env}" = {
-      "clustername" : "dbcluster-01-${var.env}",
+    "dbcluster-01-${var.env}" = {
       "spark_version" : "11.1.x-scala2.12",
       "node_type_id" : "Standard_DS3_v2",
-      "singlenode" : false,
-      "min_workers" : 1,
-      "max_workers" : 2,
+      "singlenode" : true,
       "spark_conf" : {}
       "autotermination" = 20
     }

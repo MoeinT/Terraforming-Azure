@@ -14,6 +14,6 @@ module "adfs" {
 # Create a KeyVault Linked Service
 resource "azurerm_data_factory_linked_service_key_vault" "ls-kv-adf" {
   name            = "ls-kv-${var.env}"
-  data_factory_id = module.adfs.ids["adf-tfdemo-01-${var.env}"]
+  data_factory_id = module.adfs.ids["adf-tfdb-${var.env}"]
   key_vault_id    = module.kv.KVids["kv-tfdb-${var.env}"]
 }

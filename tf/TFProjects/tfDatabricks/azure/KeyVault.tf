@@ -30,6 +30,11 @@ module "kvpolicies" {
       "KeyPermissions"     = ["Get", "List", "Create"],
       "SecretPermissions"  = ["Get", "List", "Set"],
       "StoragePermissions" = ["Get", "List"]
+    },
+    "adf-${var.env}" = {
+      "key_vault_id"   = module.kv.KVids["kv-tfdb-${var.env}"],
+      "object_id"      = module.adfs.principal_id["adf-tfdb-${var.env}"],
+      "KeyPermissions" = ["Get", "UnwrapKey", "WrapKey"]
     }
   }
 }

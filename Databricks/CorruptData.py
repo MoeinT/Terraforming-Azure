@@ -1,8 +1,4 @@
 # Databricks notebook source
-dbutils.widgets.text("env", "dev")
-
-# COMMAND ----------
-
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 

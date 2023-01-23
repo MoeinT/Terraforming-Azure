@@ -37,8 +37,8 @@ resource "databricks_cluster" "db-culster" {
   dynamic "autoscale" {
     for_each = contains(keys(each.value), "min_workers") && contains(keys(each.value), "max_workers") ? [1] : []
     content {
-      min_workers = each.value.min_workers 
-      max_workers = each.value.max_workers 
+      min_workers = each.value.min_workers
+      max_workers = each.value.max_workers
     }
   }
 

@@ -46,4 +46,8 @@ jobs:
         TF_VAR_clientsecret: ${{ secrets.ARM_CLIENT_SECRET }}
         TF_VAR_spobjid: ${{ secrets.ARM_SPOBJECTID }}
         TF_VAR_moeinobji: ${{ secrets.ARM_MOEINOBJID }}
+        TF_VAR_db_access_token_dev: ${{ secrets.ARM_DB_TOKEN_DEV }}
+        TF_VAR_db_access_token_test: ${{ secrets.ARM_DB_TOKEN_TEST }}
+        TF_VAR_db_access_token_qa: ${{ secrets.ARM_DB_TOKEN_QA }}
+        TF_VAR_db_access_token_prod: ${{ secrets.ARM_DB_TOKEN_PROD }}
       run: terraform apply -auto-approve -var-file vars/dev.tfvars

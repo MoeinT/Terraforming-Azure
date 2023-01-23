@@ -27,6 +27,6 @@ resource "azurerm_data_factory" "AllDFs" {
   }
 
   lifecycle {
-    ignore_changes = [vsts_configuration, github_configuration, customer_managed_key_id]
+    ignore_changes = [vsts_configuration, github_configuration, customer_managed_key_id, global_parameter]
   }
 }

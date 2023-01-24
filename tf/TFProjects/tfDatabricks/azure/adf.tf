@@ -36,3 +36,11 @@ resource "azurerm_data_factory_linked_service_azure_databricks" "ls-db-adf" {
     secret_name         = "db-access-token"
   }
 }
+
+# Linked Service to DataLake Gen2
+resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "ls-dl" {
+  name                 = "ls-dl-${var.env}"
+  data_factory_id      = module.adfs.ids["adf-tfdb-${var.env}"]
+  url                  = "https://${module.Sa.sa-names["sadb01${var.env}"]}.dfs.core.windows.net"
+  use_managed_identity = true
+}

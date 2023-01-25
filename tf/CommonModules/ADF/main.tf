@@ -26,7 +26,16 @@ resource "azurerm_data_factory" "AllDFs" {
     }
   }
 
+  dynamic "global_parameter" {
+    for_each = contains(keys(each.value), "global_parameter") ? each.value.global_parameter : []
+    content {
+      name  = global_parameter.value.name
+      type  = global_parameter.value.type
+      value = global_parameter.value.value
+    }
+  }
+
   lifecycle {
-    ignore_changes = [vsts_configuration, github_configuration, customer_managed_key_id, global_parameter]
+    ignore_changes = [vsts_configuration, github_configuration, customer_managed_key_id]
   }
 }

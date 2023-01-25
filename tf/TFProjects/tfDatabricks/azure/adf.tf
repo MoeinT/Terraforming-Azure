@@ -20,7 +20,7 @@ module "adfs" {
         {
           "name" : "NotebookBasePath",
           "type" : "String",
-          "value" : "/Repos/Dev/Terraforming-Azure/Databricks/"
+          "value" : "/Repos/Dev/Terraforming-Azure/Databricks/TaxiTripETL"
         }
       ]
       "tags" = { "TerraformDeveloper" = "Moein" }

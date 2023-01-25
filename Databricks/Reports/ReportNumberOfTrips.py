@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text("ProcessMonth", "201812", "Process Month (yyyymm)")
+dbutils.widgets.dropdown("env", "dev", ["dev", "test", "qa", "prod"])
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
@@ -15,7 +20,7 @@ from pyspark.sql import types as T
     .read
     .option("header", "true")
     .option("InferSchema", "true")
-    .format("csv").load(f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/TaxiZones.csv')
+    .format("csv").load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/TaxiZones.csv')
     
     .withColumnRenamed("service_zone", "ServiceZone")
     

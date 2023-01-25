@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text("ProcessMonth", "201812", "Process Month (yyyymm)")
+dbutils.widgets.dropdown("env", "dev", ["dev", "test", "qa", "prod"])
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
@@ -89,9 +94,13 @@ schema_FHVtaxi = T.StructType(
 WriteFHVTaxiObj = WriteFHVTaxi(
     schema = schema_FHVtaxi,
     options = {"header":"true"},
-    sourcePath = f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/FHVTaxiTripData_201812_01.csv',
-    targetPath = f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Processed/Facts/FHVTaxi'
+    sourcePath = f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/FHVTaxiTripData_{dbutils.widgets.get("ProcessMonth")}_01.csv',
+    targetPath = f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Processed/Facts/FHVTaxi'
 )
 
 WriteFHVTaxiObj.WriteToDeltaTable()
 WriteFHVTaxiObj.WriteToDataLake()
+
+# COMMAND ----------
+
+dbutils.notebook.exit("Success")

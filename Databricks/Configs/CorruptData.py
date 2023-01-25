@@ -1,4 +1,8 @@
 # Databricks notebook source
+dbutils.widgets.dropdown("env", "dev", ["dev", "test", "qa", "prod"])
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
@@ -28,7 +32,7 @@ display(
     spark
     .read
     .schema(df_RateCodeSchema)
-    .format("json").load(f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
+    .format("json").load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
 )
 
 # COMMAND ----------
@@ -37,7 +41,7 @@ display(
     spark
     .read
     .option("mode", "DropMalformed")
-    .format("json").load(f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
+    .format("json").load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
 )
 
 # COMMAND ----------
@@ -46,7 +50,7 @@ display(
     spark
     .read
     .option("mode", "FailFast")
-    .format("json").load(f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
+    .format("json").load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
 )
 
 # COMMAND ----------
@@ -54,8 +58,8 @@ display(
 display(
     spark
     .read
-    .option("BadRecordsPath", f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}')
-    .format("json").load(f'/mnt/sadb01dev/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
+    .option("BadRecordsPath", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}')
+    .format("json").load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Raw/RateCodes.json')
 )
 
 # COMMAND ----------

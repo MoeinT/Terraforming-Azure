@@ -29,6 +29,8 @@ module "dbclusters" {
 module "dblibraries" {
   source           = "../../../CommonModules/DatabricksLibrary"
   authentification = local.db-authentification
-  properties       = { module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22"] }
 
+  properties = {
+    module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22"]
+  }
 }

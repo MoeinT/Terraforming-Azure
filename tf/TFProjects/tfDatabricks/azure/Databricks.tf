@@ -12,15 +12,8 @@ module "db-ws" {
 }
 
 module "dbclusters" {
-  source = "../../../CommonModules/DatabricksClusters"
-
-  authentification = {
-    "workspaceurl" : module.db-ws.ws-url["db-ws-${var.env}"],
-    "workspaceid" : module.db-ws.ws-ids["db-ws-${var.env}"]
-    "clientid" : var.clientid,
-    "clientsecret" : var.clientsecret,
-    "tenantid" : data.azurerm_client_config.current.tenant_id
-  }
+  source           = "../../../CommonModules/DatabricksClusters"
+  authentification = local.db-authentification
 
   properties = {
     "dbcluster-01-${var.env}" = {
@@ -34,16 +27,8 @@ module "dbclusters" {
 }
 
 module "dblibraries" {
-  source = "../../../CommonModules/DatabricksLibrary"
-
-  authentification = {
-    "workspaceurl" : module.db-ws.ws-url["db-ws-${var.env}"],
-    "workspaceid" : module.db-ws.ws-ids["db-ws-${var.env}"]
-    "clientid" : var.clientid,
-    "clientsecret" : var.clientsecret,
-    "tenantid" : data.azurerm_client_config.current.tenant_id
-  }
-
-  properties = { module.dbclusters.clusterids["dbcluster-01-${var.env}"] : "com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22" }
+  source           = "../../../CommonModules/DatabricksLibrary"
+  authentification = local.db-authentification
+  properties       = { module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22"] }
 
 }

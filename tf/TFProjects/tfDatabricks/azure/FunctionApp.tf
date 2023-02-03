@@ -10,7 +10,7 @@
 
 module "app-service" {
   source = "../../../CommonModules/AppServicePlan"
-  propeties = {
+  properties = {
     "app-service-${va.env}" = {
       "location"            = module.rg.rg-locations["rg-dbrg-${var.env}"],
       "resource_group_name" = module.rg.rg-names["rg-dbrg-${var.env}"],

@@ -16,7 +16,7 @@ resource "azurerm_windows_function_app" "TestFunctionApp" {
 
   name                        = each.key
   location                    = each.value.location
-  resource_group_name         = each.value.azurerm_resource_group
+  resource_group_name         = each.value.resource_group_name
   service_plan_id             = each.value.service_plan_id
   storage_account_name        = each.value.storage_account_name
   storage_account_access_key  = each.value.storage_account_access_key

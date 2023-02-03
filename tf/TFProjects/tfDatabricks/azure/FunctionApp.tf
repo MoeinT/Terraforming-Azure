@@ -27,7 +27,7 @@ module "function-app" {
   env    = var.env
 
   properties = {
-    "function-app-${var.env}" = {
+    "functionapp-tfdb-${var.env}" = {
       "location"                    = module.rg.rg-locations["rg-dbrg-${var.env}"],
       "resource_group_name"         = module.rg.rg-names["rg-dbrg-${var.env}"],
       "storage_account_name"        = module.Sa.sa-names["sadb01${var.env}"],

@@ -11,12 +11,11 @@
 module "app-service" {
   source = "../../../CommonModules/AppServicePlan"
   properties = {
-    "app-service-${va.env}" = {
+    "app-service-${var.env}" = {
       "location"            = module.rg.rg-locations["rg-dbrg-${var.env}"],
       "resource_group_name" = module.rg.rg-names["rg-dbrg-${var.env}"],
-      "kind"                = "Windows",
-      "sku"                 = "Dynamic",
-      "size"                = "Y1"
+      "os_type"             = "Windows",
+      "sku_name"            = "Y1"
     }
   }
 }

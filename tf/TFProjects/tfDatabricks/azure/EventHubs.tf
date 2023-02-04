@@ -1,4 +1,4 @@
-module "eventhubs-ns" {
+/* module "eventhubs-ns" {
   source = "../../../CommonModules/EventHubsNameSpace"
   properties = {
     "eventhubns-tfdb-${var.env}" = {
@@ -23,4 +23,4 @@ module "EventHubs" {
     }
   }
   env = var.env
-}
+} */

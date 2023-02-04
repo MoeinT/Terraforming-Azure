@@ -1,3 +1,5 @@
+
+
 /* module "eventhubs-ns" {
   source = "../../../CommonModules/EventHubsNameSpace"
   properties = {
@@ -10,9 +12,9 @@
     }
   }
   env = var.env
-}
+} */
 
-module "EventHubs" {
+/* module "EventHubs" {
   source = "../../../CommonModules/EventHubs"
   properties = {
     "streamtweets-tfdb-${var.env}" = {

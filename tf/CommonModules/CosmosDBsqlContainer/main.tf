@@ -21,19 +21,51 @@ resource "azurerm_cosmosdb_sql_container" "CosmosContainers" {
   partition_key_version = lookup(each.value, "partition_key_version", 1)
   throughput            = lookup(each.value, "throughput", 400)
 
-  indexing_policy {
-    indexing_mode = lookup(each.value, "indexing_mode", null)
+  dynamic "indexing_policy" {
+    for_each = contains(keys(each.value), "indexing_policy") == true ? [1] : []
+    content {
+      indexing_mode = each.value.indexing_policy
 
-    included_path {
-      path = lookup(each.value, "included_path", null)
+      dynamic "included_path" {
+        for_each = contains(keys(each.value), "included_path") == true ? [1] : []
+        content {
+          path = each.value.included_path
+        }
+      }
+
+      dynamic "excluded_path" {
+        for_each = contains(keys(each.value), "excluded_path") == true ? [1] : []
+        content {
+          path = each.value.excluded_path
+        }
+      }
+
     }
 
-    excluded_path {
-      path = lookup(each.value, "excluded_path", null)
-    }
   }
+  /* indexing_policy {
 
-  unique_key {
-    paths = lookup(each.value, "unique_key", null)
+    indexing_mode = lookup(each.value, "indexing_mode", "consistent")
+
+    dynamic "included_path" {
+      for_each = contains(keys(each.value), "included_path") == true ? [1]: []
+      content {
+        path = each.value.included_path
+      }
+    }
+
+    dynamic "excluded_path" {
+      for_each = contains(keys(each.value), "excluded_path") == true ? [1] : []
+      content {
+        paths = each.value.excluded_path
+        }
+    }
+  } */
+
+  dynamic "unique_key" {
+    for_each = contains(keys(each.value), "unique_key_path") == true ? [1] : []
+    content {
+      paths = each.value.unique_key_path
+    }
   }
 }

@@ -23,3 +23,15 @@ module "cosmosSqlDB" {
     }
   }
 }
+
+module "cosmosSqlContainer" {
+  source = "../../../CommonModules/CosmosDBsqlContainer"
+  properties = {
+    "Families-con-${var.env}" = {
+      "resource_group_name" = module.rg.rg-names["rg-dbrg-${var.env}"],
+      "account_name"        = module.cosmosdbaccount.names["testcosmos-${var.env}"],
+      "database_name"       = module.cosmosSqlDB.names["Families-${var.env}"],
+      "partition_key_path"  = "/address/zipCode"
+    }
+  }
+}

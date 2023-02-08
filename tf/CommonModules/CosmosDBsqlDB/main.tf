@@ -12,7 +12,6 @@ provider "azurerm" {
 }
 
 resource "azurerm_cosmosdb_sql_database" "sqldbs" {
-
   for_each            = var.properties
   name                = each.key
   resource_group_name = each.value.resource_group_name

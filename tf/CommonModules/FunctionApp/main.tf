@@ -36,7 +36,7 @@ resource "azurerm_windows_function_app" "TestFunctionApp" {
     always_on = false
     application_stack {
       dotnet_version = each.value.dotnet_version
-      }
+    }
   }
-  
+
 }

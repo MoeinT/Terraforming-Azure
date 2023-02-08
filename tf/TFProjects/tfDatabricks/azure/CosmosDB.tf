@@ -7,7 +7,7 @@ module "cosmosdbaccount" {
       "kind"                = "GlobalDocumentDB",
       "consistency_level"   = "Session",
       "capabilities"        = ["EnableAggregationPipeline"]
-      "geo_location "       = local.cosmosdb_geolocation
+      "geo_location"        = local.cosmosdb_geolocation
     }
   }
 }

@@ -20,7 +20,7 @@ resource "azurerm_cosmosdb_account" "CosmosDBAccount" {
   kind                            = each.value.kind
   offer_type                      = lookup(each.value, "offer_type", "Standard")
   enable_automatic_failover       = lookup(each.value, "enable_automatic_failover", false)
-  enable_free_tier                = lookup(each.value, "enable_free_tier", true)
+  enable_free_tier                = var.env == "dev" ? true : false
   enable_multiple_write_locations = lookup(each.value, "enable_multiple_write_locations", false)
 
   consistency_policy {

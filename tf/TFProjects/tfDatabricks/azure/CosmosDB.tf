@@ -1,5 +1,7 @@
 module "cosmosdbaccount" {
   source = "../../../CommonModules/CosmosDBAccount"
+  env    = var.env
+
   properties = {
     "testcosmos-${var.env}" = {
       "location"            = module.rg.rg-locations["rg-dbrg-${var.env}"],

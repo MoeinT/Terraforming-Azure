@@ -26,7 +26,7 @@ resource "azurerm_windows_function_app" "TestFunctionApp" {
   tags                        = contains(keys(each.value), "tags") ? merge(local.DefaultTags, each.value.tags) : local.DefaultTags
 
   dynamic "identity" {
-    for_each = contains(keys(each.value), "ManagedIdentity") ? each.value.ManagedIdentity == true ? [1] : [] : []
+    for_each = lookup(each.value, "ManagedIdentity", false) == true ? [1] : []
     content {
       type = "SystemAssigned"
     }

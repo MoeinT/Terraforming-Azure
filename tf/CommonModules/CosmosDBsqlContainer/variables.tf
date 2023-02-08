@@ -1,0 +1,3 @@
+variable "properties" {
+  type = any
+}

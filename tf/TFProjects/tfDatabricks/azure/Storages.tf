@@ -5,12 +5,7 @@ module "rg" {
     "rg-dbrg-${var.env}" = {
       "loc" : "East Us",
       "tags" : { "TerraformDeveloper" = "Moein" }
-    },
-    "rg-dbrg-02-${var.env}" = {
-      "loc" : "West Europe",
-      "tags" : { "TerraformDeveloper" = "Moein" }
     }
-
   }
   env = var.env
 }

@@ -28,7 +28,7 @@ module "kvpolicies" {
       "key_vault_id"       = module.kv.KVids["kv-tfdb-${var.env}"],
       "object_id"          = var.spobjid,
       "KeyPermissions"     = ["Get", "List", "Create"],
-      "SecretPermissions"  = ["Get", "List", "Set"],
+      "SecretPermissions"  = ["Get", "List", "Set", "Delete"],
       "StoragePermissions" = ["Get", "List"]
     },
     "adf-${var.env}" = {

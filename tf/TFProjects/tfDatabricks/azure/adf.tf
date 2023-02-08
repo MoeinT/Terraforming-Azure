@@ -6,24 +6,8 @@ module "adfs" {
       "rgname"              = module.rg.rg-names["rg-dbrg-${var.env}"],
       "PublicAccessEnabled" = false,
       "ManagedIdentity"     = true,
-      "global_parameter" = [
-        {
-          "name"  = "databricksurl"
-          "type"  = "String",
-          "value" = "https://${module.db-ws.ws-url["db-ws-${var.env}"]}"
-        },
-        {
-          "name"  = "databrickscluster_id"
-          "type"  = "String",
-          "value" = module.dbclusters.clusterids["dbcluster-01-${var.env}"]
-        },
-        {
-          "name" : "NotebookBasePath",
-          "type" : "String",
-          "value" : "/Repos/Dev/Terraforming-Azure/Databricks/TaxiTripETL"
-        }
-      ]
-      "tags" = { "TerraformDeveloper" = "Moein" }
+      "global_parameter"    = local.adf_global_parameters
+      "tags"                = { "TerraformDeveloper" = "Moein" }
     }
   }
 }

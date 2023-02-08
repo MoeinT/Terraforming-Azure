@@ -43,13 +43,11 @@ resource "azurerm_cosmosdb_account" "CosmosDBAccount" {
     }
   }
 
-  geo_location {
-    location          = "eastus"
-    failover_priority = 1
-  }
-
-  geo_location {
-    location          = "westus"
-    failover_priority = 0
+  dynamic "geo_location" {
+    for_each = each.value.geo_location
+    content {
+      location          = geo_location.value.location
+      failover_priority = geo_location.value.failover_priority
+    }
   }
 }

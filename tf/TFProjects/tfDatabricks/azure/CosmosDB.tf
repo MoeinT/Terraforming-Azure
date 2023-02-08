@@ -6,7 +6,11 @@ module "cosmosdbaccount" {
       "resource_group_name" = module.rg.rg-names["rg-dbrg-${var.env}"],
       "kind"                = "GlobalDocumentDB",
       "consistency_level"   = "Session",
-      "capabilities"        = ["EnableAggregationPipeline"]
+      "capabilities" = [
+        {
+          "name" = "EnableAggregationPipeline"
+        }
+      ]
     }
   }
 }

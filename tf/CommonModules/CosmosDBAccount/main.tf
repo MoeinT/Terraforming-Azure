@@ -32,7 +32,7 @@ resource "azurerm_cosmosdb_account" "CosmosDBAccount" {
   dynamic "capabilities" {
     for_each = each.value.capabilities
     content {
-      name = capabilities.key
+      name = capabilities.value.name
     }
   }
 

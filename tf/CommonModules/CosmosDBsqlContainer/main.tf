@@ -43,24 +43,6 @@ resource "azurerm_cosmosdb_sql_container" "CosmosContainers" {
     }
 
   }
-  /* indexing_policy {
-
-    indexing_mode = lookup(each.value, "indexing_mode", "consistent")
-
-    dynamic "included_path" {
-      for_each = contains(keys(each.value), "included_path") == true ? [1]: []
-      content {
-        path = each.value.included_path
-      }
-    }
-
-    dynamic "excluded_path" {
-      for_each = contains(keys(each.value), "excluded_path") == true ? [1] : []
-      content {
-        paths = each.value.excluded_path
-        }
-    }
-  } */
 
   dynamic "unique_key" {
     for_each = contains(keys(each.value), "unique_key_path") == true ? [1] : []

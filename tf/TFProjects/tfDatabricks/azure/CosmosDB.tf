@@ -43,7 +43,7 @@ module "cosmosSqlContainer" {
       "resource_group_name" = module.rg.rg-names["rg-dbrg-${var.env}"],
       "account_name"        = module.cosmosdbaccount.names["testcosmos-${var.env}"],
       "database_name"       = module.cosmosSqlDB.names["Families-${var.env}"],
-      "partition_key_path"  = "/Row ID"
+      "partition_key_path"  = "/RowID"
     }
   }
 }

@@ -31,6 +31,6 @@ module "dblibraries" {
   authentification = local.db-authentification
 
   properties = {
-    module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22"]
+    module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22", "com.databricks.training:databricks-cosmosdb-spark2.2.0-scala2.11:1.0.0"]
   }
 }

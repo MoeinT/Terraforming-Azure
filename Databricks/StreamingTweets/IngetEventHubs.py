@@ -47,6 +47,7 @@ class StreamTweets:
             .format("delta")
             .outputMode("append")
             .option("checkpointLocation", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/TweetsStream.checkpoint')
+          #.option("path", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/TweetsStream.delta')
             .trigger(processingTime = "5 seconds")
             .table(f'{self.database}.Covid19')
         )
@@ -79,7 +80,8 @@ class StreamTweets:
             .writeStream
             .foreachBatch(StreamTweets.upsertToDelta)
             .outputMode("update")
-            .option("checkpointLocation", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/NumberOfTweets.checkpoint')
+            .option("checkpointLocation", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles{dbutils.widgets.get("env")}/NumberOfTweets.checkpoint')
+           #.option("path", f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/NumberOfTweets.delta')
             .trigger(processingTime = "15 seconds")
             .start()
         )

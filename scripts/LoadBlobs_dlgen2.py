@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     connection_string = config["Azure"]["connection_string"]
     target_path = config["Azure"]["target_path"]
-    local_path = os.path.join("..", "data")
+    local_path = os.path.join("datasets")
 
     load_files_into_azure(
         local_path=local_path,

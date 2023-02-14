@@ -27,12 +27,10 @@ resource "databricks_library" "maven-EventHub" {
   for_each   = var.properties
   cluster_id = each.key
 
-  dynamic "library" {
+  dynamic "maven" {
     for_each = each.value
     content {
-      maven {
-        coordinates = each.value
-      }
+      coordinates = maven.value
     }
   }
 }

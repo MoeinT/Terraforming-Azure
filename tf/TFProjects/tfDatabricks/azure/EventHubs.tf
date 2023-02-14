@@ -1,5 +1,4 @@
 
-
 /* module "eventhubs-ns" {
   source = "../../../CommonModules/EventHubsNameSpace"
   properties = {

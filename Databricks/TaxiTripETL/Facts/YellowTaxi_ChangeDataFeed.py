@@ -17,7 +17,6 @@ class WriteYellowTaxi:
             self.targetPath = targetPath
             self.options = options
     
-    @property
     def ReadFromSource(self):
         
         return (
@@ -27,39 +26,62 @@ class WriteYellowTaxi:
             .schema(self.schema)
             .format(self.sourceFormat)
             .load(self.sourcePath)
+            
+            .write
+            .mode("overwrite")
+            .format("delta")
+            .option("path", f'{self.targetPath}/Bronze')
+            .saveAsTable("TaxiTrips.YellowTaxiBronze")
         )
     
-    @property
-    def GetProcessedData(self): 
+    
+    def StoreProcessedData(self):
         
-        return (
-            self.ReadFromSource
+        (
+            spark.read.format("delta")
+            .option("readChangeFeed", "true")
+            .option("startingVersion", 1)
+            .table("TaxiTrips.YellowTaxiBronze")
+            
             .where(F.col("trip_distance") > 0.0)
             .where((F.col("passenger_count") > 0) & (F.col("passenger_count") < 5))
             .where((F.col("PULocationID").isNotNull()) & (F.col("DOLocationID").isNotNull()))
             .where((F.col("tpep_pickup_datetime") >= "2018-12-01") & (F.col("tpep_dropoff_datetime") < "2019-01-01"))
 
-            .withColumn("TripDuration", ((F.unix_timestamp(F.col("tpep_dropoff_datetime")) -  F.unix_timestamp(F.col("tpep_pickup_datetime")))/60).cast("integer") )
+            .withColumn("TripDuration", ((F.unix_timestamp(F.col("tpep_dropoff_datetime")) - F.unix_timestamp(F.col("tpep_pickup_datetime")))/60).cast("integer") )
 
             .withColumnRenamed("tpep_pickup_datetime", "PickupTime")
             .withColumnRenamed("tpep_dropoff_datetime", "DropTime")
             .withColumnRenamed("passenger_count", "PassengerCount")
             .withColumnRenamed("trip_distance", "TripDistance")
             .withColumnRenamed("trip_type", "TripType")
-
             .drop_duplicates()
+            
+            .write
+            .mode("overwrite")
+            .format("delta")
+            .saveAsTable("TaxiTrips.YellowTaxiSilverChange")
         )
-    
-    def WriteToDeltaTable(self) -> None: 
+        
+        dl_sourceYellowTaxi = DeltaTable.forPath(spark, "TaxiTrips.YellowTaxiSilverChange")
+        dl_targetYellowTaxi = DeltaTable.forPath(spark, "TaxiTrips.YellowTaxiSilver")
         
         (
-        self.GetProcessedData
-        .write
-        .mode("overwrite")
-        .format("delta")
-        .option("path", f'{self.targetPath}/AllVersions')
-        .saveAsTable("TaxiTrips.FactYellowTaxi")
+            dl_targetYellowTaxi.alias('target')
+            .merge(
+                df_YellowTaxiProcessed.alias('source'),
+                """
+                target.VendorID = source.VendorID and 
+                target.PickupTime = source.PickupTime and 
+                target.DropTime = source.DropTime and 
+                target.PassengerCount = source.PassengerCount
+                """
+            )
+            .whenNotMatchedInsert(set = {"target.VendorID": "source.VendorID"})
+            .whenMatchedUpdate(set = {"target.VendorID": "source.VendorID"})
+            .execute()
         )
+        
 
 # COMMAND ----------
 
@@ -94,8 +116,33 @@ WriteYellowTaxiObj = WriteYellowTaxi(
     targetPath = f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/Processed/Facts/YellowTaxi'
 )
 
-WriteYellowTaxiObj.WriteToDeltaTable()
+
+WriteYellowTaxiObj.ReadFromSource()
+WriteYellowTaxiObj.StoreProcessedData()
+
 
 # COMMAND ----------
 
 dbutils.notebook.exit("Success")
+
+# COMMAND ----------
+
+# %sql
+# ALTER TABLE TaxiTrips.YellowTaxiBronze SET TBLPROPERTIES (delta.enableChangeDataFeed = true)
+
+# COMMAND ----------
+
+# %sql
+# INSERT INTO TaxiTrips.YellowTaxiBronze 
+# (VendorID, tpep_pickup_datetime, tpep_dropoff_datetime,passenger_count,trip_distance, RatecodeID, store_and_fwd_flag, PULocationID, DOLocationID, payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount, improvement_surcharge, total_amount)
+# VALUES (10, '2018-12-01T00:40:56.000+0000', '2018-12-01T00:41:02.000+0000', 3, 0, 5, 'N', 168, 168, 1, 65, 0, 0.5, 60, 0, 0.3, 125.8);
+
+# COMMAND ----------
+
+# %sql
+# DESCRIBE HISTORY TaxiTrips.YellowTaxiBronze
+
+# COMMAND ----------
+
+# %sql
+# SELECT * FROM table_changes('TaxiTrips.YellowTaxiBronze', 0)

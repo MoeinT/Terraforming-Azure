@@ -33,15 +33,15 @@ class ConnToCosmosDB:
             .load()
         )
     
-    def WriteToDeltaTable(self):
+    @staticmethod
+    def WriteToDeltaTable(df, mode, targetLoc):
         return (
-            self.getData
+            df
             .write
-            .mode("overwrite")
+            .mode(mode)
             .format("delta")
-            .saveAsTable("CustomerData.superstore")
+            .saveAsTable(targetLoc)
         )
-        
 
 # COMMAND ----------
 
@@ -63,4 +63,4 @@ cosmosobj = ConnToCosmosDB(
 )
 
 df_superstore = cosmosobj.getData
-cosmosobj.WriteToDeltaTable()
+cosmosobj.WriteToDeltaTable(df_superstore, mode = "overwrite", targetLoc = "CustomerData.superstore")

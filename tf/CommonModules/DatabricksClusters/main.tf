@@ -42,4 +42,12 @@ resource "databricks_cluster" "db-culster" {
     }
   }
 
+  dynamic "library" {
+    for_each = each.value.ListOfLibraries
+    content {
+      maven {
+        coordinates = library.value
+      }
+    }
+  }
 }

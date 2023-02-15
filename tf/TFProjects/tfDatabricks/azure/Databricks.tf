@@ -21,16 +21,8 @@ module "dbclusters" {
       "node_type_id" : "Standard_DS3_v2",
       "singlenode" : true,
       "spark_conf" : {}
-      "autotermination" = 20
+      "autotermination" = 20,
+      "ListOfLibraries" = var.listOfMavenPackages
     }
-  }
-}
-
-module "dblibraries" {
-  source           = "../../../CommonModules/DatabricksLibrary"
-  authentification = local.db-authentification
-
-  properties = {
-    module.dbclusters.clusterids["dbcluster-01-${var.env}"] : ["com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22"]
   }
 }

@@ -332,4 +332,121 @@ display(
 
 # COMMAND ----------
 
+# MAGIC %md 
+# MAGIC #### Exploring repartitioning
 
+# COMMAND ----------
+
+from pyspark.sql import functions as F 
+from pyspark.sql import types as T
+
+load_schema = T.StructType(
+    [
+        T.StructField("ID", T.IntegerType(), True), 
+        T.StructField("Default", T.IntegerType(), True),
+        T.StructField("Loan_type", T.StringType(), True),
+        T.StructField("Gender", T.StringType(), True),
+        T.StructField("Age", T.IntegerType(), True),
+        T.StructField("Degree", T.StringType(), True),
+        T.StructField("Income", T.IntegerType(), True),
+        T.StructField("Credit_score", T.IntegerType(), True),
+        T.StructField("Loan_length", T.IntegerType(), True),
+        T.StructField("Signers", T.IntegerType(), True),
+        T.StructField("Citizenship:", T.StringType(), True)
+    ]
+)
+
+df_loanData = (
+    spark
+    .read
+    .format("csv")
+    .options(**{"header":"true"})
+    .schema(load_schema)
+    .load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/customerData/loan_data.csv')
+    
+    .repartition(4)
+)
+
+print(df_loanData.rdd.getNumPartitions())
+
+# COMMAND ----------
+
+df_loanData.count()
+
+# COMMAND ----------
+
+len(df_loanData.rdd.glom().collect())
+
+# COMMAND ----------
+
+for partitionNUm, partition in enumerate(df_loanData.rdd.glom().collect()):
+    print(f'Length of partition {partitionNUm}: {len(partition)}')
+
+# COMMAND ----------
+
+# MAGIC %md 
+# MAGIC #### Adaptive query execution
+# MAGIC - Disable adaptive query execution
+# MAGIC - Repartition based on a specific column
+# MAGIC - Explore each partition size using the len(df.rdd.glom().collect())
+
+# COMMAND ----------
+
+spark.conf.set("spark.sql.adaptive.enabled", False)
+
+# COMMAND ----------
+
+display(
+    df_loanData
+    .select(F.col("Degree"))
+    .distinct()
+)
+
+# COMMAND ----------
+
+df_loanData = df_loanData.repartition("Degree")
+
+# COMMAND ----------
+
+print(df_loanData.rdd.getNumPartitions())
+
+# COMMAND ----------
+
+for partitionNum, partition in enumerate(df_loanData.rdd.glom().collect()):
+    print(f'Length of partition {partitionNum}: {len(partition)}')
+
+# COMMAND ----------
+
+spark.conf.get("spark.sql.shuffle.partitions")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### The above result is due to the fact that the default number of partitions in Spark is 200. 
+# MAGIC - Use the spark.conf.set("spark.sql.shuffle.partitions", 3) command to set the number of partitions to 3, and then repeat the whole process
+# MAGIC - Since the number of records for each unique value in degree column is not equal, repartitioning based on this column would lead to a data skew. However, this is still good practice to understand how partitioning works in Spark. 
+
+# COMMAND ----------
+
+spark.conf.set("spark.sql.shuffle.partitions", 3)
+
+# COMMAND ----------
+
+df_loanData = df_loanData.repartition("Degree")
+
+# COMMAND ----------
+
+print(df_loanData.rdd.getNumPartitions())
+
+# COMMAND ----------
+
+for partitionNum, partition in enumerate(df_loanData.rdd.glom().collect()):
+    print(f'Length of partition {partitionNum}: {len(partition)}')
+
+# COMMAND ----------
+
+display(
+    df_loanData
+    .groupBy(F.col("Degree"))
+    .count()
+)

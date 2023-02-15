@@ -21,8 +21,8 @@ module "dbclusters" {
       "node_type_id" : "Standard_DS3_v2",
       "singlenode" : true,
       "spark_conf" : {}
-      "autotermination" = 20
-      /* "ListOfLibraries" = var.listOfMavenPackages */
+      "autotermination" = 20,
+      "ListOfLibraries" = var.listOfMavenPackages
     }
   }
 }

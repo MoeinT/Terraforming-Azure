@@ -43,7 +43,7 @@ resource "databricks_cluster" "db-culster" {
   }
 
   dynamic "library" {
-    for_each = each.value.ListOfLibraries
+    for_each = contains(keys(each.value), "ListOfLibraries") ? each.value.ListOfLibraries : []
     content {
       maven {
         coordinates = library.value

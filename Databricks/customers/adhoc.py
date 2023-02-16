@@ -3,7 +3,7 @@ dbutils.widgets.dropdown("env", "dev", ["dev", "test", "qa", "prod"])
 
 # COMMAND ----------
 
-from pyspark.sql import functions as F 
+from pyspark.sql import functions as F
 from pyspark.sql import types as T
 import pandas as pd
 from typing import *
@@ -450,3 +450,104 @@ display(
     .groupBy(F.col("Degree"))
     .count()
 )
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Testing the json file
+
+# COMMAND ----------
+
+df_testjson = (
+    spark
+    .read
+    .format("json")
+    .load(f'/mnt/sadb01dev/commonfiles-dev/customerData/test.json')
+)
+
+# COMMAND ----------
+
+display(
+    df_testjson
+)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### Window functions in Apache Spark
+
+# COMMAND ----------
+
+from pyspark.sql import Window
+
+load_schema = T.StructType(
+    [
+        T.StructField("ID", T.IntegerType(), True), 
+        T.StructField("Default", T.IntegerType(), True),
+        T.StructField("Loan_type", T.StringType(), True),
+        T.StructField("Gender", T.StringType(), True),
+        T.StructField("Age", T.IntegerType(), True),
+        T.StructField("Degree", T.StringType(), True),
+        T.StructField("Income", T.IntegerType(), True),
+        T.StructField("Credit_score", T.IntegerType(), True),
+        T.StructField("Loan_length", T.IntegerType(), True),
+        T.StructField("Signers", T.IntegerType(), True),
+        T.StructField("Citizenship:", T.StringType(), True)
+    ]
+)
+
+df_loanData = (
+    spark
+    .read
+    .format("csv")
+    .options(**{"header":"true"})
+    .schema(load_schema)
+    .load(f'/mnt/sadb01{dbutils.widgets.get("env")}/commonfiles-{dbutils.widgets.get("env")}/customerData/loan_data.csv')
+)
+
+# COMMAND ----------
+
+display(
+    df_loanData
+)
+
+# COMMAND ----------
+
+window = (
+    Window
+    .partitionBy(df_loanData["Degree"])
+    .orderBy(df_loanData["Income"].desc())
+)
+
+windonwFunc = F.rank().over(window)
+
+display(
+    df_loanData
+    .select(F.col("ID"), F.col("Degree"), F.col("Income"))
+    .withColumn("rank", windonwFunc)
+)
+
+# COMMAND ----------
+
+# Average age for each degree 
+import sys
+window = (
+    Window.partitionBy(df_loanData["Degree"])
+    .orderBy(F.col("Age").asc())
+    .rangeBetween(-sys.maxsize, 0)
+)
+
+avgAgeSoFar = F.avg(df_loanData["Age"]).over(window)
+
+display(
+    df_loanData
+    .select(F.col("ID"), F.col("Degree"), F.col("Age"))
+    .withColumn("avgAgeSoFar", avgAgeSoFar)
+)
+
+
+
+
+# COMMAND ----------
+
+e

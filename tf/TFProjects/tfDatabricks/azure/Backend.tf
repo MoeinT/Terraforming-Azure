@@ -1,9 +1,9 @@
 
-/* resource "azurerm_resource_group" "RGBackend" {
+resource "azurerm_resource_group" "RGBackend" {
   name     = "tfstate-rg"
   location = "West Europe"
   tags     = merge(local.backendtags, { "Terraform_Developer" : "Moein" })
-} */
+}
 
 /* resource "azurerm_storage_account" "SABackend" {
   name                            = "tfstatesademo01"

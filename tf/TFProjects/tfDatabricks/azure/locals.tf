@@ -1,12 +1,12 @@
 
-/* locals {
+locals {
   backendtags = {
     "Environment_Type"  = "Backend"
     "InfoSeC"           = "Confidential"
     "Technical_Contact" = "moin.torabi@gmail.com"
   }
 
-  db-authentification = {
+  /* db-authentification = {
     "workspaceurl" : module.db-ws.ws-url["db-ws-${var.env}"],
     "workspaceid" : module.db-ws.ws-ids["db-ws-${var.env}"]
     "clientid" : var.clientid,
@@ -37,7 +37,7 @@
       "type" : "String",
       "value" : "/Repos/Dev/Terraforming-Azure/Databricks/TaxiTripETL"
     }
-  ]
-} */
+  ] */
+}
 
 

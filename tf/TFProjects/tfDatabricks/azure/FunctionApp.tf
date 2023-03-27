@@ -1,4 +1,5 @@
-module "app-service" {
+
+/* module "app-service" {
   source = "../../../CommonModules/AppServicePlan"
 
   properties = {
@@ -9,9 +10,9 @@ module "app-service" {
       "sku_name"            = "Y1"
     }
   }
-}
+} */
 
-module "function-app" {
+/* module "function-app" {
   source = "../../../CommonModules/FunctionApp"
   env    = var.env
 
@@ -29,4 +30,4 @@ module "function-app" {
       "sku_name"                    = "Y1"
     }
   }
-}
+} */

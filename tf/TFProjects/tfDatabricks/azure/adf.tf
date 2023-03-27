@@ -1,4 +1,5 @@
-module "adfs" {
+
+/* module "adfs" {
   source = "../../../CommonModules/ADF"
   propeties = {
     "adf-tfdb-${var.env}" = {
@@ -10,17 +11,17 @@ module "adfs" {
       "tags"                = { "TerraformDeveloper" = "Moein" }
     }
   }
-}
+} */
 
 # Create a KeyVault Linked Service
-resource "azurerm_data_factory_linked_service_key_vault" "ls-kv-adf" {
+/* resource "azurerm_data_factory_linked_service_key_vault" "ls-kv-adf" {
   name            = "ls-kv-${var.env}"
   data_factory_id = module.adfs.ids["adf-tfdb-${var.env}"]
   key_vault_id    = module.kv.KVids["kv-tfdb-${var.env}"]
-}
+} */
 
 # Create a linked service to Databricks
-resource "azurerm_data_factory_linked_service_azure_databricks" "ls-db-adf" {
+/* resource "azurerm_data_factory_linked_service_azure_databricks" "ls-db-adf" {
   name                = "ls-db-${var.env}"
   data_factory_id     = module.adfs.ids["adf-tfdb-${var.env}"]
   description         = "ADB Linked Service via Access Token"
@@ -36,12 +37,12 @@ resource "azurerm_data_factory_linked_service_azure_databricks" "ls-db-adf" {
     linked_service_name = azurerm_data_factory_linked_service_key_vault.ls-kv-adf.name
     secret_name         = "db-access-token"
   }
-}
+} */
 
 # Linked Service to DataLake Gen2
-resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "ls-dl" {
+/* resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "ls-dl" {
   name                 = "ls-dl-${var.env}"
   data_factory_id      = module.adfs.ids["adf-tfdb-${var.env}"]
   url                  = "https://${module.Sa.sa-names["sadb01${var.env}"]}.dfs.core.windows.net"
   use_managed_identity = true
-}
+} */

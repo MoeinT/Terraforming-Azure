@@ -7,42 +7,42 @@ variable "env" {
   }
 }
 
-variable "spobjid" {
+/* variable "spobjid" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "moeinobji" {
+/* variable "moeinobji" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "clientsecret" {
+/* variable "clientsecret" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "clientid" {
+/* variable "clientid" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "db_access_token_dev" {
+/* variable "db_access_token_dev" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "db_access_token_test" {
+/* variable "db_access_token_test" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "db_access_token_qa" {
+/* variable "db_access_token_qa" {
   type      = string
   sensitive = true
-}
+} */
 
-variable "db_access_token_prod" {
+/* variable "db_access_token_prod" {
   type      = string
   sensitive = true
-}
+} */

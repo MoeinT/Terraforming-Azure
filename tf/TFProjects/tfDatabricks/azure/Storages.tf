@@ -1,5 +1,7 @@
+
+
 # Resource Group
-module "rg" {
+/* module "rg" {
   source = "../../../CommonModules/ResourceGroups"
   properties = {
     "rg-dbrg-${var.env}" = {
@@ -8,10 +10,10 @@ module "rg" {
     }
   }
   env = var.env
-}
+} */
 
 # Storage Account
-module "Sa" {
+/* module "Sa" {
   source = "../../../CommonModules/StorageAccounts"
   properties = {
     "sadb01${var.env}" = {
@@ -24,14 +26,14 @@ module "Sa" {
     }
   }
   env = var.env
-}
+} */
 
 #Containers
-module "Scons" {
+/* module "Scons" {
   source = "../../../CommonModules/SContainers"
   properties = {
     "commonfiles-${var.env}" = {
       "storage_account_id" = module.Sa.ids["sadb01${var.env}"]
     }
   }
-}
+} */

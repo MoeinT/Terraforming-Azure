@@ -1,4 +1,5 @@
-module "cosmosdbaccount" {
+
+/* module "cosmosdbaccount" {
   source = "../../../CommonModules/CosmosDBAccount"
   env    = var.env
 
@@ -12,9 +13,9 @@ module "cosmosdbaccount" {
       "geo_location"        = local.cosmosdb_geolocation
     }
   }
-}
+} */
 
-module "cosmosSqlDB" {
+/* module "cosmosSqlDB" {
   source = "../../../CommonModules/CosmosDBsqlDB"
   properties = {
     "Families-${var.env}" = {
@@ -22,9 +23,9 @@ module "cosmosSqlDB" {
       "account_name"        = module.cosmosdbaccount.names["testcosmos-${var.env}"]
     }
   }
-}
+} */
 
-module "cosmosSqlContainer" {
+/* module "cosmosSqlContainer" {
   source = "../../../CommonModules/CosmosDBsqlContainer"
   properties = {
     "Families-con-${var.env}" = {
@@ -46,4 +47,4 @@ module "cosmosSqlContainer" {
       "partition_key_path"  = "/RowID"
     }
   }
-}
+} */

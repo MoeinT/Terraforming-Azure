@@ -1,4 +1,5 @@
-module "db-ws" {
+
+/* module "db-ws" {
   source = "../../../CommonModules/DatabricksWorkspace"
   env    = var.env
 
@@ -9,9 +10,9 @@ module "db-ws" {
       "PublicAccessEnabled" : true
     }
   }
-}
+} */
 
-module "dbclusters" {
+/* module "dbclusters" {
   source           = "../../../CommonModules/DatabricksClusters"
   authentification = local.db-authentification
 
@@ -25,4 +26,4 @@ module "dbclusters" {
       "ListOfLibraries" = var.listOfMavenPackages
     }
   }
-}
+} */

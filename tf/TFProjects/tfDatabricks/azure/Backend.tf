@@ -1,10 +1,11 @@
-resource "azurerm_resource_group" "RGBackend" {
+
+/* resource "azurerm_resource_group" "RGBackend" {
   name     = "tfstate-rg"
   location = "West Europe"
   tags     = merge(local.backendtags, { "Terraform_Developer" : "Moein" })
-}
+} */
 
-resource "azurerm_storage_account" "SABackend" {
+/* resource "azurerm_storage_account" "SABackend" {
   name                            = "tfstatesademo01"
   resource_group_name             = azurerm_resource_group.RGBackend.name
   location                        = azurerm_resource_group.RGBackend.location
@@ -19,9 +20,9 @@ resource "azurerm_storage_account" "SABackend" {
     bypass         = ["AzureServices"]
   }
 
-}
+} */
 
-resource "azurerm_storage_data_lake_gen2_filesystem" "ConBackend" {
+/* resource "azurerm_storage_data_lake_gen2_filesystem" "ConBackend" {
   name               = "tfstate-container"
   storage_account_id = azurerm_storage_account.SABackend.id
-}
+} */

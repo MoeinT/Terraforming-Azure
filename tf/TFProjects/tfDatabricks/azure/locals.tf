@@ -1,4 +1,5 @@
-locals {
+
+/* locals {
   backendtags = {
     "Environment_Type"  = "Backend"
     "InfoSeC"           = "Confidential"
@@ -37,6 +38,6 @@ locals {
       "value" : "/Repos/Dev/Terraforming-Azure/Databricks/TaxiTripETL"
     }
   ]
-}
+} */
 
 

@@ -1,4 +1,5 @@
-module "kv" {
+
+/* module "kv" {
   source = "../../../CommonModules/KeyVault"
   env    = var.env
 
@@ -11,9 +12,9 @@ module "kv" {
       "tags"           = { "TerraformDeveloper" = "Moein" }
     }
   }
-}
+} */
 
-module "kvpolicies" {
+/* module "kvpolicies" {
   source = "../../../CommonModules/KVAccessPolicy"
 
   properties = {
@@ -38,9 +39,9 @@ module "kvpolicies" {
       "SecretPermissions" = ["Get", "List"]
     }
   }
-}
+} */
 
-module "kvsecrets" {
+/* module "kvsecrets" {
   source = "../../../CommonModules/KVSecrets"
   properties = {
     "client-id"           = { "value" = var.clientid, "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] },
@@ -51,4 +52,4 @@ module "kvsecrets" {
     "cosmosdb-primaryKey" = { "value" = module.cosmosdbaccount.primaryKey["testcosmos-${var.env}"], "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] },
     "db-access-token"     = { "value" = var.env == "dev" ? var.db_access_token_dev : var.env == "test" ? var.db_access_token_test : var.env == "qa" ? var.db_access_token_qa : var.db_access_token_prod, "key_vault_id" = module.kv.KVids["kv-tfdb-${var.env}"] }
   }
-}
+} */
